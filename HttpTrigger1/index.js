@@ -3,14 +3,15 @@ const config = require("./config");
 const dbContext = require("./data/databaseContext");
 
 module.exports = async function (context, req) {
-    const { endpoint, key, databaseId, containerId } = config;
-    const client = new CosmosClient({ endpoint, key });
-    const database = client.database(databaseId);
-    const container = database.container(containerId);
-
-    await dbContext.create(client, databaseId, containerId);
     
     try {
+        const { endpoint, key, databaseId, containerId } = config;
+        const client = new CosmosClient({ endpoint, key });
+        const database = client.database(databaseId);
+        const container = database.container(containerId);
+    
+        await dbContext.create(client, databaseId, containerId);
+
         console.log(`Querying container: Items`);
 
         const querySpec = { query: "SELECT * from c" };
